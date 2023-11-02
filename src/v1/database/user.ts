@@ -34,4 +34,14 @@ export default class UserData {
     }
 
   }
+
+  static async emailExists(email: string): Promise<boolean> {
+    try {
+        const user = await db('Tickets.users').where({ email }).first();
+        return !!user; // Converts the user object to a boolean. If user exists, returns true. Otherwise, returns false.
+    } catch (e: any) {
+        console.log(e.message);
+        throw new Error(e.message);
+    }
+}
 }
