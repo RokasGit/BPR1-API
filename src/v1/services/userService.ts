@@ -1,6 +1,8 @@
 import { User } from "../models/user";
 import db from "../database/user";
 import bcrypt from 'bcrypt';
+import * as jwt from 'jsonwebtoken';
+import config from "../../config";
 
 export default class UserService {
   static async register(user: User): Promise<User> {
@@ -37,8 +39,37 @@ export default class UserService {
     return await db.registerUser(user);
   }
 
-  static async login(user: User): Promise<string> {
-    return "token";
+  static async login(user: User): Promise<User> {
+    if ((await db.emailExists(user.email)) === false) {
+      throw Error("Email does not exist");
+    }
+
+    const foundUser = await db.loginUser(user.email);
+
+    if (!foundUser) {
+      throw new Error("User not found");
+    }
+
+    // Compare provided password with stored hashed password
+    const passwordMatch = await bcrypt.compare(user.password, foundUser.password);
+    if (!passwordMatch) {
+      throw new Error("Incorrect password");
+    }
+
+    // Asserting that JWT_SECRET is defined or providing a fallback secret
+    const JWT_SECRET = config.env.JWT_SECRET || 'your-fallback-secret'; 
+
+    const token = jwt.sign(
+      { userId: foundUser.username }, // payload: include user identifying information
+      JWT_SECRET,   // secret key from environment variables    
+    );
+
+    return {
+      username: foundUser.username,
+      email: foundUser.email,
+      password: "********",
+      token: token
+    };
   }
 
   static async logout(user: User): Promise<void> {

@@ -11,7 +11,7 @@ export default class UserData {
     try {
       const [insertedId] = await db('Tickets.users').insert({
         username: user.username,
-        password: user.password,  
+        password: user.password,
         email: user.email
       });
 
@@ -28,20 +28,37 @@ export default class UserData {
         password: "********"
       };
     }
-    catch (e:any) { 
+    catch (e: any) {
       console.log(e.message);
-      throw new Error(e.message); 
+      throw new Error(e.message);
     }
 
   }
 
   static async emailExists(email: string): Promise<boolean> {
     try {
-        const user = await db('Tickets.users').where({ email }).first();
-        return !!user; // Converts the user object to a boolean. If user exists, returns true. Otherwise, returns false.
+      const user = await db('Tickets.users').where({ email }).first();
+      return !!user; // Converts the user object to a boolean. If user exists, returns true. Otherwise, returns false.
     } catch (e: any) {
-        console.log(e.message);
-        throw new Error(e.message);
+      console.log(e.message);
+      throw new Error(e.message);
     }
-}
+  }
+
+  static async loginUser(Email: string): Promise<User | undefined> {
+    try {
+      // Retrieve user by username or email
+      return await db('Tickets.users')
+        .where({ email: Email })
+        .first();
+
+    } catch (e: any) {
+      console.log(e.message);
+      throw new Error(e.message);
+    }
+  }
+
+
+
+
 }
