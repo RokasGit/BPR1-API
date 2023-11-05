@@ -6,7 +6,7 @@ import e from "express";
 export default class UserData {
   static async registerUser(
     user: User
-  ): Promise<User> {
+  ): Promise<String> {
 
     try {
       const [insertedId] = await db('Tickets.users').insert({
@@ -21,15 +21,9 @@ export default class UserData {
         throw new Error("User could not be registered");
       }
 
-      return {
-        userId: insertedUser.id,
-        username: insertedUser.username,
-        email: insertedUser.email,
-        password: "********"
-      };
+      return insertedUser.email;
     }
     catch (e: any) {
-      console.log(e.message);
       throw new Error(e.message);
     }
 
@@ -40,12 +34,11 @@ export default class UserData {
       const user = await db('Tickets.users').where({ email }).first();
       return !!user; // Converts the user object to a boolean. If user exists, returns true. Otherwise, returns false.
     } catch (e: any) {
-      console.log(e.message);
       throw new Error(e.message);
     }
   }
 
-  static async loginUser(Email: string): Promise<User | undefined> {
+  static async loginUser(Email: string): Promise<User> {
     try {
       // Retrieve user by username or email
       return await db('Tickets.users')
@@ -53,7 +46,6 @@ export default class UserData {
         .first();
 
     } catch (e: any) {
-      console.log(e.message);
       throw new Error(e.message);
     }
   }

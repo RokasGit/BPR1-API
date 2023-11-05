@@ -5,7 +5,7 @@ import * as jwt from 'jsonwebtoken';
 import config from "../../config";
 
 export default class UserService {
-  static async register(user: User): Promise<User> {
+  static async register(user: User): Promise<String> {
     if (user.username.length < 3 || user.password.length < 3 || user.email.length < 3) {
       throw Error(
         "Username, password and email must be at least 3 characters long"
@@ -13,9 +13,6 @@ export default class UserService {
     }
     if (!user.email.includes("@")) {
       throw Error("Email must contain @");
-    }
-    if (user.username.includes(" ")) {
-      throw Error("Username must not contain spaces");
     }
     // check if email does not contain special characters
     if (user.email.match(/[^a-zA-Z0-9@.]/g)) {
@@ -36,16 +33,24 @@ export default class UserService {
     const hashedPassword = await bcrypt.hash(user.password, 2);
     user.password = hashedPassword; // Replace the plain text password with the hashed one
 
-    return await db.registerUser(user);
+    try {
+      return await db.registerUser(user);
+    } catch (e: any) {
+      throw Error(e.message);
+    }
+
   }
 
   static async login(user: User): Promise<User> {
-    if ((await db.emailExists(user.email)) === false) {
-      throw Error("Email does not exist");
+    
+    let foundUser;
+    
+    try {
+      foundUser = await db.loginUser(user.email);
+    } catch (e: any) {
+      throw new Error(e.message);
     }
-
-    const foundUser = await db.loginUser(user.email);
-
+    
     if (!foundUser) {
       throw new Error("User not found");
     }
@@ -57,7 +62,7 @@ export default class UserService {
     }
 
     // Asserting that JWT_SECRET is defined or providing a fallback secret
-    const JWT_SECRET = config.env.JWT_SECRET || 'your-fallback-secret'; 
+    const JWT_SECRET = config.env.JWT_SECRET || 'FullPriceTicket';
 
     const token = jwt.sign(
       { userId: foundUser.username }, // payload: include user identifying information

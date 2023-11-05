@@ -10,7 +10,7 @@ const {
 
 
 export const db = knex({
-    client: "mysql",
+    client: "mysql2",
     connection: {
         host: MYSQL_HOST,
         user: MYSQL_USER,
