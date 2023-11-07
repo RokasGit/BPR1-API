@@ -1,37 +1,34 @@
-import { db } from '../database/index';
+import { db } from "../database/index";
 import { User } from "../models/user";
 import e from "express";
 
-
 export default class UserData {
-  static async registerUser(
-    user: User
-  ): Promise<String> {
-
+  static async registerUser(user: User): Promise<String> {
     try {
-      const [insertedId] = await db('Tickets.users').insert({
+      const [insertedId] = await db("Tickets.user").insert({
         username: user.username,
         password: user.password,
-        email: user.email
+        email: user.email,
+        language_id: user.languageId ?? 1,
       });
 
-      const insertedUser = await db('Tickets.users').where({ id: insertedId }).first();
+      const insertedUser = await db("Tickets.user")
+        .where({ id: insertedId })
+        .first();
 
       if (!insertedUser) {
         throw new Error("User could not be registered");
       }
 
       return insertedUser.email;
-    }
-    catch (e: any) {
+    } catch (e: any) {
       throw new Error(e.message);
     }
-
   }
 
   static async emailExists(email: string): Promise<boolean> {
     try {
-      const user = await db('Tickets.users').where({ email }).first();
+      const user = await db("Tickets.user").where({ email }).first();
       return !!user; // Converts the user object to a boolean. If user exists, returns true. Otherwise, returns false.
     } catch (e: any) {
       throw new Error(e.message);
@@ -41,16 +38,9 @@ export default class UserData {
   static async loginUser(Email: string): Promise<User> {
     try {
       // Retrieve user by username or email
-      return await db('Tickets.users')
-        .where({ email: Email })
-        .first();
-
+      return await db("Tickets.user").where({ email: Email }).first();
     } catch (e: any) {
       throw new Error(e.message);
     }
   }
-
-
-
-
 }

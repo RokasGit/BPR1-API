@@ -1,0 +1,16 @@
+version: '1'
+services:
+  api:
+    image: tickets-api
+    build: .
+    networks:
+      - backend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./:/opt/api
+    restart: always   
+
+networks:
+  backend:
+    driver: bridge
