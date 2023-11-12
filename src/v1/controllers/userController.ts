@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import userService from "../services/userService";
+import QuestionService from "../services/questionService";
 import { User } from "../models/user";
 
 export default class UserController {
@@ -7,6 +8,8 @@ export default class UserController {
     try {
       const user: User = req.body;
       const newUser = await userService.register(user);
+      // const questions = await QuestionService.getExam();
+      // console.log(questions);
       res.status(201).send(newUser);
     } catch (e) {
       res.status(400).json((e as Error).message);
