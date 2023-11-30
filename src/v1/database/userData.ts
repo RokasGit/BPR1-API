@@ -1,6 +1,5 @@
-import { db } from "../database/index";
+import { db } from "./index";
 import { User } from "../models/user";
-import e from "express";
 
 export default class UserData {
   static async registerUser(user: User): Promise<String> {
