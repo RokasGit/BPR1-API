@@ -45,7 +45,7 @@ export default class TopicData {
           this.on("question.id", "=", "questionStatus.question_id").andOn(
             "questionStatus.user_id",
             "=",
-            user_id
+            db.raw("?", [user_id])
           );
         })
         .where("question.topic_id", topic_id)
