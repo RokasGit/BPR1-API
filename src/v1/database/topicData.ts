@@ -87,7 +87,6 @@ export default class TopicData {
           return questionList;
         });
       questionList.totalQuestions = questionList.questions.length;
-      console.log(questionList);
       return questionList;
     } catch (e: any) {
       throw new Error(e.message);
