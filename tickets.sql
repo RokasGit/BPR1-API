@@ -4,7 +4,7 @@ CREATE DATABASE `Tickets` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_
 USE `Tickets`;
 CREATE TABLE `language` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `Language` varchar(255) NOT NULL,
+  `language` varchar(255) NOT NULL,
   `code` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
@@ -39,7 +39,9 @@ CREATE TABLE `topic` (
     `name` varchar(255) NOT NULL,
     `description` varchar(255) NOT NULL,
     `image` varchar(255) NOT NULL,
-    PRIMARY KEY (`id`)
+    `language_id` int(11) NOT NULL,
+    PRIMARY KEY (`id`),
+    FOREIGN KEY (`language_id`) REFERENCES `language`(`id`)
     ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 CREATE TABLE `question` (
     `id` int(11) NOT NULL AUTO_INCREMENT,
