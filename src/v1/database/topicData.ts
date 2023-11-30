@@ -1,6 +1,7 @@
 import { db } from "./index";
 import { Topic } from "../models/topic";
 import { QuestionList } from "../models/questionList";
+import { Answer } from "../models/answer";
 
 export default class TopicData {
   static async getAllTopics(): Promise<Topic[]> {
@@ -49,12 +50,44 @@ export default class TopicData {
         })
         .where("question.topic_id", topic_id)
         .then((rows: any) => {
-          //   let questionList: QuestionList =
-          //     {};
+          let questionList: QuestionList = {
+            questions: [],
+            totalQuestions: 0,
+          };
           rows.forEach((row: any) => {
-            console.log(row);
+            let question = questionList.questions.find(
+              (q) => q.id === row.question_id
+            );
+            if (!question) {
+              let answer: Answer = {
+                id: row.answer_id,
+                answer: row.answer,
+                is_correct: row.is_correct,
+                questionId: row.question_id,
+              };
+              question = {
+                id: row.question_id,
+                question: row.question,
+                topic_id: row.topic_id,
+                image: row.image,
+                explanation: row.explanation,
+                answers: [answer],
+                status: row.status,
+              };
+              questionList.questions.push(question);
+            } else {
+              question.answers.push({
+                id: row.answer_id,
+                answer: row.answer,
+                is_correct: row.is_correct,
+                questionId: row.question_id,
+              });
+            }
           });
+          return questionList;
         });
+      questionList.totalQuestions = questionList.questions.length;
+      console.log(questionList);
       return questionList;
     } catch (e: any) {
       throw new Error(e.message);
