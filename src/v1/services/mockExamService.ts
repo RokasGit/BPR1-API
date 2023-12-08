@@ -1,6 +1,7 @@
 import MockExamData from "../database/mockExamData";
 import TopicService from "./topicService";
 import UserService from "./userService";
+import QuestionService from "./questionService";
 
 import { QuestionList } from "../models/questionList";
 import { Question } from "../models/question";
@@ -20,19 +21,48 @@ export default class MockExamService {
       throw new Error(e.message);
     }
   }
-  static async checkMockExam(mockExam: MockExam): Promise<number> {
+  static async checkMockExam(mockExam: MockExam): Promise<MockExam> {
     try {
-      return await MockExamData.createMockExam(mockExam);
+      if (mockExam.questions != null && mockExam.answered_questions != null) {
+        let correct_answers = 0;
+
+        for (const question of mockExam.answered_questions.questions) {
+          await QuestionService.checkQuestion(question, mockExam.user_id);
+          if (question.status === "correct") {
+            correct_answers++;
+          }
+        }
+
+        mockExam.percentage =
+          (correct_answers / mockExam.answered_questions.totalQuestions) * 100;
+        mockExam.points =
+          mockExam.percentage >= 80
+            ? 10 + correct_answers
+            : correct_answers - 10;
+        mockExam.completion_date = new Date();
+
+        let uploadExam = await MockExamData.checkMockExam(mockExam);
+        let updateScore = await UserService.updateScore(
+          mockExam.user_id,
+          mockExam.points
+        );
+
+        return mockExam;
+      }
+
+      throw new Error("No questions or answers provided");
     } catch (e: any) {
       throw new Error(e.message);
     }
   }
+
   static async getNewMockExam(
     user_id: number,
     language_id: number
   ): Promise<MockExam> {
     try {
       let topics = await TopicService.getTopicsByLanguage(language_id);
+      let questionSet: Set<number> = new Set();
       let questionList: QuestionList = {
         questions: [],
         totalQuestions: 0,
@@ -40,25 +70,25 @@ export default class MockExamService {
       let numberOfTopics = topics.length;
       let numberOfQuestionsPerTopic = 30 / numberOfTopics;
 
-      topics.forEach(async (topic) => {
-        if (questionList.totalQuestions < 30) {
-          let questions = await TopicService.getTopicQuestions(
-            user_id,
-            topic.id
-          ).then((questionList: QuestionList) => {
-            let questions = questionList.questions;
-            return questions;
-          });
-          questions.forEach((question: Question) => {
-            if (questionList.totalQuestions < 30) {
-              questionList.questions.push(question);
-              questionList.totalQuestions++;
-            }
-          });
+      for (const topic of topics) {
+        if (questionList.totalQuestions >= 30) {
+          break;
         }
-      });
-      //   to await for the foreach loop to finish
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+
+        let questions = await TopicService.getTopicQuestions(user_id, topic.id);
+
+        for (const question of questions.questions) {
+          if (questionList.totalQuestions >= 30) {
+            break;
+          }
+
+          if (!questionSet.has(question.id)) {
+            questionSet.add(question.id);
+            questionList.questions.push(question);
+            questionList.totalQuestions++;
+          }
+        }
+      }
       let mockExam: MockExam = {
         user_id: user_id,
         percentage: 0,

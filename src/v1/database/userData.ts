@@ -28,15 +28,30 @@ export default class UserData {
   static async emailExists(email: string): Promise<boolean> {
     try {
       const user = await db("Tickets.user").where({ email }).first();
-      return !!user; // Converts the user object to a boolean. If user exists, returns true. Otherwise, returns false.
+      return !!user;
     } catch (e: any) {
       throw new Error(e.message);
     }
   }
-
+  static async updateScore(userId: number, score: number): Promise<void> {
+    try {
+      let old_score = await db("Tickets.user")
+        .where({ id: userId })
+        .first()
+        .select("score");
+      if (old_score.score + score >= 0) {
+        await db("Tickets.user")
+          .where({ id: userId })
+          .update({ score: db.raw(`score + ${score}`) });
+      } else {
+        await db("Tickets.user").where({ id: userId }).update({ score: 0 });
+      }
+    } catch (e: any) {
+      throw new Error(e.message);
+    }
+  }
   static async loginUser(email: string): Promise<User> {
     try {
-      // Retrieve user by username or email
       return await db("Tickets.user").where({ email: email }).first();
     } catch (e: any) {
       throw new Error(e.message);

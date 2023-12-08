@@ -24,15 +24,15 @@ export default class MockExamData {
     }
   }
 
-  static async createMockExam(mockExam: MockExam): Promise<number> {
+  static async checkMockExam(mockExam: MockExam): Promise<void> {
     try {
-      const [insertedId] = await db("Tickets.mockExam").insert({
+      await db("Tickets.mockExam").insert({
         user_id: mockExam.user_id,
         percentage: mockExam.percentage,
         completion_date: mockExam.completion_date,
       });
 
-      return insertedId;
+      // return update;
     } catch (e: any) {
       throw new Error(e.message);
     }

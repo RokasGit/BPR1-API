@@ -41,7 +41,13 @@ export default class UserService {
       throw Error(e.message);
     }
   }
-
+  static async updateScore(userId: number, score: number): Promise<void> {
+    try {
+      await db.updateScore(userId, score);
+    } catch (e: any) {
+      throw new Error(e.message);
+    }
+  }
   static async login(user: User): Promise<User> {
     let foundUser;
 

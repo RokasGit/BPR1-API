@@ -6,4 +6,6 @@ export interface MockExam {
   percentage: number;
   completion_date?: Date;
   questions?: QuestionList;
+  points?: number;
+  answered_questions?: QuestionList;
 }

@@ -13,7 +13,8 @@ CREATE TABLE `user` (
   `email` varchar(255) NOT NULL,
   `username` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `language_id` int(11) NOT NULL,
+  `language_id` int(11) DEFAULT 1,
+  `score` int(11) DEFAULT 0,
   PRIMARY KEY (`id`),
   UNIQUE KEY `unique_email` (`email`),
   FOREIGN KEY (`language_id`) REFERENCES `language`(`id`)
@@ -43,6 +44,7 @@ CREATE TABLE `topic` (
     PRIMARY KEY (`id`),
     FOREIGN KEY (`language_id`) REFERENCES `language`(`id`)
     ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
+
 CREATE TABLE `question` (
     `id` int(11) NOT NULL AUTO_INCREMENT,
     `question` varchar(255) NOT NULL,
@@ -70,7 +72,7 @@ CREATE TABLE `userBadge` (
 CREATE TABLE `questionStatus` (
     `user_id` int(11) NOT NULL,
     `question_id` int(11) NOT NULL,
-    `status` int(11) NOT NULL,
+    `status` varchar(20) NOT NULL,
     PRIMARY KEY (`user_id`, `question_id`),
     FOREIGN KEY (`user_id`) REFERENCES `user`(`id`),
     FOREIGN KEY (`question_id`) REFERENCES `question`(`id`)

@@ -26,8 +26,8 @@ export default class MockExamController {
   static async checkMockExam(req: Request, res: Response) {
     try {
       let mockExam: MockExam = req.body;
-      let id = await MockExamService.checkMockExam(mockExam);
-      res.status(200).json(id);
+      mockExam = await MockExamService.checkMockExam(mockExam);
+      res.status(200).json(mockExam);
     } catch (e: any) {
       res.status(500).send(e.message);
     }
