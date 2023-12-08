@@ -8,7 +8,7 @@ export default class UserData {
         username: user.username,
         password: user.password,
         email: user.email,
-        language_id: user.languageId ?? 1,
+        language_id: user.language_id ?? 1,
       });
 
       const insertedUser = await db("Tickets.user")

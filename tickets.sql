@@ -56,7 +56,7 @@ CREATE TABLE `answer` (
     `id` int(11) NOT NULL AUTO_INCREMENT,
     `answer` varchar(255) NOT NULL,
     `question_id` int(11) NOT NULL,
-    `is_correct` int(11) NOT NULL,
+    `is_correct` tinyint(1) NOT NULL,
     PRIMARY KEY (`id`),
     FOREIGN KEY (`question_id`) REFERENCES `question`(`id`)
     ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;

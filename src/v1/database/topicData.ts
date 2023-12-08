@@ -62,7 +62,7 @@ export default class TopicData {
               let answer: Answer = {
                 id: row.answer_id,
                 answer: row.answer,
-                is_correct: row.is_correct,
+                is_correct: row.is_correct === 1 ? true : false,
                 questionId: row.question_id,
               };
               question = {
@@ -72,14 +72,14 @@ export default class TopicData {
                 image: row.image,
                 explanation: row.explanation,
                 answers: [answer],
-                status: row.status,
+                status: row.status ?? "unanswered",
               };
               questionList.questions.push(question);
             } else {
               question.answers.push({
                 id: row.answer_id,
                 answer: row.answer,
-                is_correct: row.is_correct,
+                is_correct: row.is_correct === 1 ? true : false,
                 questionId: row.question_id,
               });
             }

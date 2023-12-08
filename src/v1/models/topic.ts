@@ -4,6 +4,6 @@ export interface Topic {
   name: string;
   description: string;
   image: string;
-  language: string;
+  language_id: number;
   questions?: QuestionList;
 }

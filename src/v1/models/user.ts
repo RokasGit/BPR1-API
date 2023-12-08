@@ -4,5 +4,5 @@ export interface User {
   username: string;
   password: string;
   email: string;
-  languageId?: number;
+  language_id?: number;
 }

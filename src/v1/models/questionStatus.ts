@@ -1,4 +1,5 @@
 export interface QuestionStatus {
   questionId: number;
-  isCorrect: boolean;
+  userId: number;
+  status: string;
 }
