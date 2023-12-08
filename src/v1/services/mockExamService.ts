@@ -69,14 +69,11 @@ export default class MockExamService {
       };
       let numberOfTopics = topics.length;
       let numberOfQuestionsPerTopic = 30 / numberOfTopics;
-
       for (const topic of topics) {
         if (questionList.totalQuestions >= 30) {
           break;
         }
-
-        let questions = await TopicService.getTopicQuestions(user_id, topic.id);
-
+        let questions = await TopicService.getTopicQuestions(topic.id, user_id);
         for (const question of questions.questions) {
           if (questionList.totalQuestions >= 30) {
             break;
