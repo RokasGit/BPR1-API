@@ -73,17 +73,12 @@ export default class UserService {
     // Asserting that JWT_SECRET is defined or providing a fallback secret
     const JWT_SECRET = config.env.JWT_SECRET || "FullPriceTicket";
 
-    const token = jwt.sign(
+    foundUser.token = jwt.sign(
       { userId: foundUser.username }, // payload: include user identifying information
       JWT_SECRET // secret key from environment variables
     );
-
-    return {
-      username: foundUser.username,
-      email: foundUser.email,
-      password: "********",
-      token: token,
-    };
+    foundUser.password = "********";
+    return foundUser;
   }
 
   static async logout(user: User): Promise<void> {
