@@ -14,7 +14,7 @@ router.get("/", (req, res) => {
   res.send("Get all users");
 });
 
-router.get("/:id", (req, res) => {
+router.get("/:user_id", (req, res) => {
   res.send("Get user by id");
 });
 

@@ -88,7 +88,7 @@ export default class UserService {
     return [];
   }
 
-  static async getUserById(id: number): Promise<User> {
+  static async getUserById(user_id: number): Promise<User> {
     return { username: "username", password: "password", email: "email" };
   }
 }

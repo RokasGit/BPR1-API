@@ -1,5 +1,4 @@
 import { Answer } from "./answer";
-import { QuestionStatus } from "./questionStatus";
 export interface Question {
   id: number;
   question: string;
@@ -7,5 +6,5 @@ export interface Question {
   image: string;
   explanation: string;
   answers: Answer[];
-  status: QuestionStatus;
+  status: string;
 }

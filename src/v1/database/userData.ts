@@ -34,10 +34,10 @@ export default class UserData {
     }
   }
 
-  static async loginUser(Email: string): Promise<User> {
+  static async loginUser(email: string): Promise<User> {
     try {
       // Retrieve user by username or email
-      return await db("Tickets.user").where({ email: Email }).first();
+      return await db("Tickets.user").where({ email: email }).first();
     } catch (e: any) {
       throw new Error(e.message);
     }

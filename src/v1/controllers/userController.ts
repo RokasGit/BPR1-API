@@ -40,8 +40,8 @@ export default class UserController {
   }
   static async getUserById(req: Request, res: Response) {
     try {
-      const id = parseInt(req.params.id);
-      const user = await userService.getUserById(id);
+      const user_id = parseInt(req.params.user_id);
+      const user = await userService.getUserById(user_id);
       res.status(200).send(user);
     } catch (e) {
       res.status(400).json((e as Error).message);
