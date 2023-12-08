@@ -28,7 +28,7 @@ CREATE TABLE `badge` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 CREATE TABLE `mockExam` (
     `id` int(11) NOT NULL AUTO_INCREMENT,
-    `percentage` varchar(255) NOT NULL,
+    `percentage` double(5,2) NOT NULL,
     `user_id` int(11) NOT NULL,
     `completion_date` datetime NOT NULL,
     PRIMARY KEY (`id`),

@@ -4,5 +4,6 @@ export interface MockExam {
   id: number;
   user: User;
   percentage: number;
+  completion_date?: Date;
   questions?: QuestionList;
 }
