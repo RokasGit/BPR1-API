@@ -49,6 +49,7 @@ export default class TopicData {
           );
         })
         .where("question.topic_id", topic_id)
+        .orderByRaw("RAND()")
         .then((rows: any) => {
           let questionList: QuestionList = {
             questions: [],
