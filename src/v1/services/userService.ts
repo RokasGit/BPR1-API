@@ -33,17 +33,10 @@ export default class UserService {
       throw new Error(e.message);
     }
 
-    if (!foundUser) {
-      throw new Error("User not found");
-    }
-
     const passwordMatch = await bcrypt.compare(
       user.password,
       foundUser.password
     );
-    if (!passwordMatch) {
-      throw new Error("Incorrect password");
-    }
 
     let token = generateToken({
       user_id: foundUser.user_id,
@@ -52,7 +45,6 @@ export default class UserService {
       language_id: foundUser.language_id,
       score: foundUser.score,
     });
-    console.log(foundUser);
     let userResponse = {
       user_id: foundUser.user_id,
       username: foundUser.username,

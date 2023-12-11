@@ -51,5 +51,26 @@ const validateRegistration = [
     next();
   },
 ];
-
-export { validateRequest, validateRegistration };
+const validateLogin = [
+  body("email")
+    .isEmail()
+    .normalizeEmail()
+    .withMessage("Invalid email format")
+    .custom(async (email, { req }) => {
+      const existingUser = await UserService.getUserByEmail(email);
+      if (!existingUser) {
+        throw new Error("Email does not exist");
+      }
+    }),
+  body("password")
+    .isLength({ min: 8 })
+    .withMessage("Password must be at least 8 characters"),
+  (req: Request, res: Response, next: NextFunction) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+    next();
+  },
+];
+export { validateRequest, validateRegistration, validateLogin };
