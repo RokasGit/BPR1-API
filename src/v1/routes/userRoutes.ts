@@ -1,12 +1,13 @@
 import express from "express";
 import UserController from "../controllers/userController";
+import { authenticateToken } from "../middleware/authorizationMiddleware";
 const router = express.Router();
 
 router.post("/register", UserController.register);
 
 router.post("/login", UserController.login);
 
-router.post("/logout", (req, res) => {
+router.post("/logout", authenticateToken, (req, res) => {
   res.send("Logout");
 });
 

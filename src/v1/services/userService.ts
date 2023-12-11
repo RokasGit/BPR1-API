@@ -2,6 +2,7 @@ import { User } from "../models/user";
 import db from "../database/userData";
 import bcrypt from "bcryptjs";
 import * as jwt from "jsonwebtoken";
+import { generateToken } from "../utils/jwtUtils";
 import config from "../../config";
 
 export default class UserService {
@@ -48,7 +49,7 @@ export default class UserService {
       throw new Error(e.message);
     }
   }
-  static async login(user: User): Promise<User> {
+  static async login(user: User): Promise<String> {
     let foundUser;
 
     try {
@@ -61,7 +62,6 @@ export default class UserService {
       throw new Error("User not found");
     }
 
-    // Compare provided password with stored hashed password
     const passwordMatch = await bcrypt.compare(
       user.password,
       foundUser.password
@@ -70,15 +70,14 @@ export default class UserService {
       throw new Error("Incorrect password");
     }
 
-    // Asserting that JWT_SECRET is defined or providing a fallback secret
-    const JWT_SECRET = config.env.JWT_SECRET || "FullPriceTicket";
-
-    foundUser.token = jwt.sign(
-      { userId: foundUser.username }, // payload: include user identifying information
-      JWT_SECRET // secret key from environment variables
-    );
-    foundUser.password = "********";
-    return foundUser;
+    let token = generateToken({
+      id: foundUser.userId,
+      username: foundUser.username,
+      email: foundUser.email,
+      language_id: foundUser.language_id,
+      score: foundUser.score,
+    });
+    return token;
   }
 
   static async logout(user: User): Promise<void> {
