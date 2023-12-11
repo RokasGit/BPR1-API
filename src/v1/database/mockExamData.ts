@@ -32,8 +32,6 @@ export default class MockExamData {
         percentage: mockExam.percentage,
         completion_date: mockExam.completion_date,
       });
-
-      // return update;
     } catch (e: any) {
       throw new Error(e.message);
     }

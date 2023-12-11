@@ -1,9 +1,9 @@
 import express from "express";
 import TopicController from "../controllers/topicController";
-import { authenticateToken } from "../middleware/authorizationMiddleware";
+import { authenticateTokenMiddleware } from "../middleware/authorizationMiddleware";
 const router = express.Router();
 
-router.use(authenticateToken);
+router.use(authenticateTokenMiddleware);
 router.get("/", TopicController.getAllTopics);
 
 router.get("/questions/:topic_id", TopicController.getTopicQuestions);

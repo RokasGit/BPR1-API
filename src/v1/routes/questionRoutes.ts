@@ -1,9 +1,9 @@
 import QuestionController from "../controllers/questionController";
 import { Router } from "express";
-import { authenticateToken } from "../middleware/authorizationMiddleware";
+import { authenticateTokenMiddleware } from "../middleware/authorizationMiddleware";
 const router = Router();
 
-router.use(authenticateToken);
+router.use(authenticateTokenMiddleware);
 
 router.post("/:user_id", QuestionController.checkQuestion);
 

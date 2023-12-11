@@ -14,7 +14,7 @@ const verifyToken = (token: string): User | null => {
     const decoded = jwt.verify(
       token,
       config.env.JWT_SECRET || "FullPriceTicket"
-    ) as User; // Assuming your JWT payload will contain user data
+    ) as User;
     return decoded;
   } catch (error) {
     return null;

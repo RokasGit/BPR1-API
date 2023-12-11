@@ -1,8 +1,8 @@
 import MockExamController from "../controllers/mockExamController";
 import { Router } from "express";
-import { authenticateToken } from "../middleware/authorizationMiddleware";
+import { authenticateTokenMiddleware } from "../middleware/authorizationMiddleware";
 const router = Router();
-router.use(authenticateToken);
+router.use(authenticateTokenMiddleware);
 router.get("/users/", MockExamController.getMockExamsByUserId);
 router.get("/:mockExam_id", MockExamController.getMockExamById);
 router.post("/", MockExamController.checkMockExam);

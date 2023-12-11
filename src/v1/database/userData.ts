@@ -13,7 +13,7 @@ export default class UserData {
       });
 
       const insertedUser: UserResponse = await db("Tickets.user")
-        .where({ id: insertedId })
+        .where({ user_id: insertedId })
         .select("user_id", "username", "email", "score")
         .first();
 
@@ -27,10 +27,13 @@ export default class UserData {
     }
   }
 
-  static async emailExists(email: string): Promise<boolean> {
+  static async getUserByEmail(email: string): Promise<UserResponse> {
     try {
-      const user = await db("Tickets.user").where({ email }).first();
-      return !!user;
+      const user = await db("Tickets.user")
+        .where({ email: email })
+        .first()
+        .select("user_id", "username", "email", "score");
+      return user;
     } catch (e: any) {
       throw new Error(e.message);
     }

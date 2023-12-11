@@ -1,11 +1,13 @@
 import { Request, Response, NextFunction } from "express";
 import { body, validationResult, ValidationError } from "express-validator";
+import { UserResponse } from "../models/userResponse";
+import UserService from "../services/userService";
 
 const validateRequest = (req: Request, res: Response, next: NextFunction) => {
   if (req.method === "POST") {
-    const body = req.body;
+    const bodyData = req.body;
 
-    if (!body || Object.keys(body).length === 0) {
+    if (!bodyData || Object.keys(bodyData).length === 0) {
       return res.status(400).json({
         error: {
           code: "invalid_request_body",
@@ -28,7 +30,16 @@ const validateRegistration = [
   body("username")
     .isLength({ min: 5 })
     .withMessage("Username must be at least 5 characters"),
-  body("email").isEmail().normalizeEmail().withMessage("Invalid email format"),
+  body("email")
+    .isEmail()
+    .normalizeEmail()
+    .withMessage("Invalid email format")
+    .custom(async (email, { req }) => {
+      const existingUser = await UserService.getUserByEmail(email);
+      if (existingUser) {
+        throw new Error("Email already exists");
+      }
+    }),
   body("password")
     .isLength({ min: 8 })
     .withMessage("Password must be at least 8 characters"),

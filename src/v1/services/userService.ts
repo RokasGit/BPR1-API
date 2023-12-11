@@ -10,7 +10,7 @@ import { UserResponse } from "../models/userResponse";
 export default class UserService {
   static async register(user: User): Promise<UserResponse> {
     const hashedPassword = await bcrypt.hash(user.password, 2);
-    user.password = hashedPassword; // Replace the plain text password with the hashed one
+    user.password = hashedPassword;
     try {
       return await db.registerUser(user);
     } catch (e: any) {
@@ -74,5 +74,8 @@ export default class UserService {
 
   static async getUserById(user_id: number): Promise<UserResponse> {
     return await db.getUserById(user_id);
+  }
+  static async getUserByEmail(email: string): Promise<UserResponse> {
+    return await db.getUserByEmail(email);
   }
 }
