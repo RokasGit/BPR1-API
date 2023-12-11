@@ -12,7 +12,6 @@ const authenticateToken = (req: Request, res: Response, next: NextFunction) => {
   if (!decodedToken) {
     return res.status(403).json({ message: "Invalid token" });
   }
-  console.log(decodedToken);
   req.user = decodedToken; // Assign decoded user data to the request object
   next();
 };

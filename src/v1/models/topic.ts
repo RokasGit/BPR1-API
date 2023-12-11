@@ -1,6 +1,6 @@
 import { QuestionList } from "./questionList";
 export interface Topic {
-  id: number;
+  topic_id: number;
   name: string;
   description: string;
   image: string;

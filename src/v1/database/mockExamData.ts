@@ -17,8 +17,9 @@ export default class MockExamData {
     try {
       let mockExam = await db("Tickets.mockExam")
         .select()
-        .where("id", mockExam_id);
-      return mockExam[0];
+        .where("mockexam_id", mockExam_id)
+        .first();
+      return mockExam;
     } catch (e: any) {
       throw new Error(e.message);
     }

@@ -29,24 +29,28 @@ export default class TopicData {
     try {
       let questionList: QuestionList = await db("Tickets.question")
         .select(
-          "question.id as question_id",
+          "question.question_id as question_id",
           "question.question",
           "question.topic_id",
           "question.image",
           "question.explanation",
-          "answer.id as answer_id",
+          "answer.answer_id as answer_id",
           "answer.answer",
           "answer.is_correct",
           "questionStatus.status"
         )
         .from("Tickets.question")
-        .leftJoin("Tickets.answer", "question.id", "answer.question_id")
+        .leftJoin(
+          "Tickets.answer",
+          "question.question_id",
+          "answer.question_id"
+        )
         .leftJoin("Tickets.questionStatus", function () {
-          this.on("question.id", "=", "questionStatus.question_id").andOn(
-            "questionStatus.user_id",
+          this.on(
+            "question.question_id",
             "=",
-            db.raw("?", [user_id])
-          );
+            "questionStatus.question_id"
+          ).andOn("questionStatus.user_id", "=", db.raw("?", [user_id]));
         })
         .where("question.topic_id", topic_id)
         .orderByRaw("RAND()")
@@ -57,17 +61,17 @@ export default class TopicData {
           };
           rows.forEach((row: any) => {
             let question = questionList.questions.find(
-              (q) => q.id === row.question_id
+              (q) => q.question_id === row.question_id
             );
             if (!question) {
               let answer: Answer = {
-                id: row.answer_id,
+                answer_id: row.answer_id,
                 answer: row.answer,
                 is_correct: row.is_correct === 1 ? true : false,
                 questionId: row.question_id,
               };
               question = {
-                id: row.question_id,
+                question_id: row.question_id,
                 question: row.question,
                 topic_id: row.topic_id,
                 image: row.image,
@@ -78,7 +82,7 @@ export default class TopicData {
               questionList.questions.push(question);
             } else {
               question.answers.push({
-                id: row.answer_id,
+                answer_id: row.answer_id,
                 answer: row.answer,
                 is_correct: row.is_correct === 1 ? true : false,
                 questionId: row.question_id,

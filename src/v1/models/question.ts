@@ -1,6 +1,6 @@
 import { Answer } from "./answer";
 export interface Question {
-  id: number;
+  question_id: number;
   question: string;
   topic_id: number;
   image: string;

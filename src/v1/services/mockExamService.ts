@@ -73,14 +73,17 @@ export default class MockExamService {
         if (questionList.totalQuestions >= 30) {
           break;
         }
-        let questions = await TopicService.getTopicQuestions(topic.id, user_id);
+        let questions = await TopicService.getTopicQuestions(
+          topic.topic_id,
+          user_id
+        );
         for (const question of questions.questions) {
           if (questionList.totalQuestions >= 30) {
             break;
           }
 
-          if (!questionSet.has(question.id)) {
-            questionSet.add(question.id);
+          if (!questionSet.has(question.question_id)) {
+            questionSet.add(question.question_id);
             questionList.questions.push(question);
             questionList.totalQuestions++;
           }

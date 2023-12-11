@@ -1,7 +1,7 @@
 import { QuestionList } from "./questionList";
 import { User } from "./user";
 export interface MockExam {
-  id?: number;
+  mockexam_id?: number;
   user_id: number;
   percentage: number;
   completion_date?: Date;

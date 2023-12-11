@@ -28,7 +28,7 @@ export default class QuestionService {
           } else if (answer.is_correct === false) {
             correct_selected = -1;
             await QuestionService.updateQuestionStatus(
-              question.id,
+              question.question_id,
               user_id,
               "incorrect"
             );
@@ -37,7 +37,7 @@ export default class QuestionService {
 
         if (correct_selected > 0) {
           await QuestionService.updateQuestionStatus(
-            question.id,
+            question.question_id,
             user_id,
             "correct"
           );
