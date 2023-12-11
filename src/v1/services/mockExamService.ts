@@ -23,10 +23,10 @@ export default class MockExamService {
   }
   static async checkMockExam(mockExam: MockExam): Promise<MockExam> {
     try {
-      if (mockExam.questions != null && mockExam.answered_questions != null) {
+      if (mockExam.questions != null) {
         let correct_answers = 0;
 
-        for (const question of mockExam.answered_questions.questions) {
+        for (const question of mockExam.questions.questions) {
           await QuestionService.checkQuestion(question, mockExam.user_id);
           if (question.status === "correct") {
             correct_answers++;
@@ -34,7 +34,7 @@ export default class MockExamService {
         }
 
         mockExam.percentage =
-          (correct_answers / mockExam.answered_questions.totalQuestions) * 100;
+          (correct_answers / mockExam.questions.totalQuestions) * 100;
         mockExam.points =
           mockExam.percentage >= 80
             ? 10 + correct_answers

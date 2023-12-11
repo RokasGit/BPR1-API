@@ -23,9 +23,13 @@ export default class QuestionService {
         let correct_selected = 0;
 
         for (const answer of question.answers) {
-          if (answer.is_correct === true && correct_selected >= 0) {
+          if (
+            answer.is_correct === true &&
+            correct_selected >= 0 &&
+            answer.selected === true
+          ) {
             correct_selected++;
-          } else if (answer.is_correct === false) {
+          } else if (answer.is_correct === false && answer.selected === true) {
             correct_selected = -1;
             await QuestionService.updateQuestionStatus(
               question.question_id,

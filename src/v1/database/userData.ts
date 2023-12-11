@@ -43,10 +43,12 @@ export default class UserData {
         .select("score");
       if (old_score.score + score >= 0) {
         await db("Tickets.user")
-          .where({ id: user_id })
+          .where({ user_id: user_id })
           .update({ score: db.raw(`score + ${score}`) });
       } else {
-        await db("Tickets.user").where({ id: user_id }).update({ score: 0 });
+        await db("Tickets.user")
+          .where({ user_id: user_id })
+          .update({ score: 0 });
       }
     } catch (e: any) {
       throw new Error(e.message);

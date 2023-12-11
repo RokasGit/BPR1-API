@@ -69,6 +69,7 @@ export default class TopicData {
                 answer: row.answer,
                 is_correct: row.is_correct === 1 ? true : false,
                 questionId: row.question_id,
+                selected: false,
               };
               question = {
                 question_id: row.question_id,
@@ -86,6 +87,7 @@ export default class TopicData {
                 answer: row.answer,
                 is_correct: row.is_correct === 1 ? true : false,
                 questionId: row.question_id,
+                selected: false,
               });
             }
           });

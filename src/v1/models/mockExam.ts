@@ -7,5 +7,4 @@ export interface MockExam {
   completion_date?: Date;
   questions?: QuestionList;
   points?: number;
-  answered_questions?: QuestionList;
 }
