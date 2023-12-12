@@ -47,7 +47,9 @@ export default class UserData {
       if (old_score.score + score >= 0) {
         await db("Tickets.user")
           .where({ user_id: user_id })
-          .update({ score: db.raw(`score + ${score}`) });
+          .update({
+            score: db.raw(`score + ${score}`),
+          });
       } else {
         await db("Tickets.user")
           .where({ user_id: user_id })

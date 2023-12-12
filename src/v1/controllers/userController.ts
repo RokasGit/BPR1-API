@@ -2,12 +2,14 @@ import { Request, Response } from "express";
 import userService from "../services/userService";
 import { User } from "../models/user";
 import { UserResponse } from "../models/userResponse";
+import cache from "../utils/cacheUtils";
 
 export default class UserController {
   static async register(req: Request, res: Response) {
     try {
       const user: User = req.body;
       const newUser: UserResponse = await userService.register(user);
+      cache.flushAll();
       res.status(201).json(newUser);
     } catch (error) {
       console.error("Error registering user:", error);
@@ -34,7 +36,9 @@ export default class UserController {
       const user: User | undefined = req.user as User | undefined;
 
       if (!user) {
-        return res.status(401).json({ error: "User not authenticated" });
+        return res.status(401).json({
+          error: "User not authenticated",
+        });
       }
       await userService.logout(user);
       res.status(200).send("Logged out");

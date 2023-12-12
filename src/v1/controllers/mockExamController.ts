@@ -8,11 +8,15 @@ export default class MockExamController {
       const user_id: number | undefined = req.user?.user_id;
 
       if (user_id === undefined || isNaN(user_id) || user_id <= 0) {
-        return res.status(400).json({ error: "Invalid or missing user ID" });
+        return res.status(400).json({
+          error: "Invalid or missing user ID",
+        });
       }
       const mockExams = await MockExamService.getMockExamsByUserId(user_id);
       if (!mockExams || mockExams.length === 0) {
-        return res.status(404).json({ error: "Mock exams not found" });
+        return res.status(404).json({
+          error: "Mock exams not found",
+        });
       }
       res.status(200).json(mockExams);
     } catch (error: any) {
@@ -26,7 +30,9 @@ export default class MockExamController {
       const mockExamId: number = parseInt(req.params.mockExam_id);
 
       if (isNaN(mockExamId) || mockExamId <= 0) {
-        return res.status(400).json({ error: "Invalid mock exam ID" });
+        return res.status(400).json({
+          error: "Invalid mock exam ID",
+        });
       }
 
       const mockExam = await MockExamService.getMockExamById(mockExamId);
@@ -48,7 +54,9 @@ export default class MockExamController {
       const mockExamData: MockExam = req.body;
 
       if (!mockExamData || typeof mockExamData !== "object") {
-        return res.status(400).json({ error: "Invalid mock exam data" });
+        return res.status(400).json({
+          error: "Invalid mock exam data",
+        });
       }
 
       const checkedMockExam = await MockExamService.checkMockExam(mockExamData);
@@ -63,7 +71,9 @@ export default class MockExamController {
     try {
       const user_id = req.user?.user_id;
       if (!user_id) {
-        return res.status(400).json({ error: "User ID is missing or invalid" });
+        return res.status(400).json({
+          error: "User ID is missing or invalid",
+        });
       }
 
       const language_id = parseInt(req.params.language_id);

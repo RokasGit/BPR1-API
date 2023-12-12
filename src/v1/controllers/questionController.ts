@@ -20,13 +20,17 @@ export default class QuestionController {
       );
 
       if (!checkedQuestion) {
-        return res.status(404).json({ error: "Question not found or invalid" });
+        return res.status(404).json({
+          error: "Question not found or invalid",
+        });
       }
 
       res.status(200).json(checkedQuestion);
     } catch (error: any) {
       console.error("Error checking question:", error);
-      res.status(500).json({ error: "Failed to check question" });
+      res.status(500).json({
+        error: "Failed to check question",
+      });
     }
   }
   static async reportQuestion(req: Request, res: Response) {
@@ -41,7 +45,9 @@ export default class QuestionController {
       res.status(201).json({ message: "Question reported" });
     } catch (error: any) {
       console.error("Error reporting question:", error);
-      res.status(500).json({ error: "Failed to report question" });
+      res.status(500).json({
+        error: "Failed to report question",
+      });
     }
   }
 }

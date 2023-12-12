@@ -44,7 +44,9 @@ export default class TopicController {
       );
 
       if (!topicQuestions) {
-        return res.status(404).json({ error: "Topic questions not found" });
+        return res.status(404).json({
+          error: "Topic questions not found",
+        });
       }
 
       res.status(200).json(topicQuestions);

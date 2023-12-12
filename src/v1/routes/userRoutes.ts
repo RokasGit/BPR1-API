@@ -1,6 +1,7 @@
 import express from "express";
 import UserController from "../controllers/userController";
 import { authenticateTokenMiddleware } from "../middleware/authorizationMiddleware";
+import { cacheMiddleware } from "../middleware/cachingMiddleware";
 import {
   validateRegistration,
   validateLogin,
@@ -15,11 +16,17 @@ router.post("/logout", authenticateTokenMiddleware, (req, res) => {
   res.send("Logout");
 });
 
-router.get("/", authenticateTokenMiddleware, UserController.getAllUsers);
+router.get(
+  "/",
+  authenticateTokenMiddleware,
+  cacheMiddleware,
+  UserController.getAllUsers
+);
 
 router.get(
   "/:user_id",
   authenticateTokenMiddleware,
+  cacheMiddleware,
   UserController.getUserById
 );
 
