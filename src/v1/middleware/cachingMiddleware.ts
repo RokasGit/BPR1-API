@@ -10,10 +10,7 @@ const cacheMiddleware = (req: Request, res: Response, next: NextFunction) => {
 
   const cachedData = cache.get(key);
   if (cachedData) {
-    return res.status(200).json({
-      source: "cache",
-      data: cachedData,
-    });
+    return res.status(200).json(cachedData);
   }
 
   const originalSend = res.send.bind(res);
