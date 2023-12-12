@@ -8,9 +8,15 @@ const cacheMiddleware = (req: Request, res: Response, next: NextFunction) => {
   }
   const key: string = req.originalUrl + user_id;
 
-  const cachedData = cache.get(key);
+  const cachedData = cache.get(key) as string;
   if (cachedData) {
-    return res.status(200).json(cachedData);
+    let parsedCachedData;
+    try {
+      parsedCachedData = JSON.parse(cachedData);
+    } catch (error) {
+      parsedCachedData = cachedData;
+    }
+    return res.status(200).json(parsedCachedData);
   }
 
   const originalSend = res.send.bind(res);
