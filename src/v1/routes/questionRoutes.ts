@@ -6,5 +6,6 @@ const router = Router();
 router.use(authenticateTokenMiddleware);
 
 router.post("/:user_id", QuestionController.checkQuestion);
+router.post("/report/", QuestionController.reportQuestion);
 
 export = router;

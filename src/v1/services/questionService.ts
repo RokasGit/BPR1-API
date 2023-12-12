@@ -1,6 +1,7 @@
 import { Question } from "../models/question";
 import { QuestionList } from "../models/questionList";
 import QuestionData from "../database/questionData";
+import { QuestionReport } from "../models/questionReport";
 
 export default class QuestionService {
   static async updateQuestionStatus(
@@ -49,6 +50,13 @@ export default class QuestionService {
         }
       }
       return question;
+    } catch (e: any) {
+      throw new Error(e.message);
+    }
+  }
+  static async reportQuestion(questionReport: QuestionReport): Promise<void> {
+    try {
+      await QuestionData.reportQuestion(questionReport);
     } catch (e: any) {
       throw new Error(e.message);
     }

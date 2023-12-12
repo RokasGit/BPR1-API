@@ -1,5 +1,6 @@
 import { Question } from "../models/question";
 import { QuestionList } from "../models/questionList";
+import { QuestionReport } from "../models/questionReport";
 import { db } from "./index";
 
 export default class QuestionData {
@@ -23,6 +24,13 @@ export default class QuestionData {
           status: status,
         });
       }
+    } catch (e: any) {
+      throw new Error(e.message);
+    }
+  }
+  static async reportQuestion(questionReport: QuestionReport): Promise<void> {
+    try {
+      await db("Tickets.questionReport").insert(questionReport);
     } catch (e: any) {
       throw new Error(e.message);
     }

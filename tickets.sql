@@ -85,3 +85,13 @@ CREATE TABLE `subscription` (
     PRIMARY KEY (`subscription_id`),
     FOREIGN KEY (`user_id`) REFERENCES `user`(`user_id`)
     ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
+CREATE TABLE `questionReport` (
+    `question_report_id` int(11) NOT NULL AUTO_INCREMENT,
+    `user_id` int(11) NOT NULL,
+    `question_id` int(11) NOT NULL,
+    `report_date` datetime NOT NULL,
+    `report` varchar(500) NOT NULL,
+    PRIMARY KEY (`question_report_id`),
+    FOREIGN KEY (`user_id`) REFERENCES `user`(`user_id`),
+    FOREIGN KEY (`question_id`) REFERENCES `question`(`question_id`)
+    ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;

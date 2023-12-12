@@ -34,7 +34,7 @@ export default class UserController {
       const user: User | undefined = req.user as User | undefined;
 
       if (!user) {
-        return res.status(401).json({ message: "User not authenticated" });
+        return res.status(401).json({ error: "User not authenticated" });
       }
       await userService.logout(user);
       res.status(200).send("Logged out");
