@@ -77,15 +77,27 @@ export default class MockExamService {
           topic.topic_id,
           user_id
         );
+        let addedQuestions = 0;
         for (const question of questions.questions) {
-          if (questionList.totalQuestions >= 30) {
-            break;
+          if (
+            questionList.totalQuestions >= 30 ||
+            addedQuestions >= numberOfQuestionsPerTopic
+          ) {
+            if (
+              topic.topic_id === topics[numberOfTopics - 1].topic_id &&
+              questionList.totalQuestions < 30
+            ) {
+              //
+            } else {
+              break;
+            }
           }
 
           if (!questionSet.has(question.question_id)) {
             questionSet.add(question.question_id);
             questionList.questions.push(question);
             questionList.totalQuestions++;
+            addedQuestions++;
           }
         }
       }
