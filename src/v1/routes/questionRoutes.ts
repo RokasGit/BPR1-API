@@ -6,11 +6,7 @@ import { clearCacheMiddleware } from "../middleware/cachingMiddleware";
 const router = Router();
 
 router.use(authenticateTokenMiddleware);
-router.post(
-  "/:user_id",
-  clearCacheMiddleware,
-  QuestionController.checkQuestion
-);
+router.post("/", clearCacheMiddleware, QuestionController.checkQuestion);
 router.post("/report/", QuestionController.reportQuestion);
 
 export = router;
