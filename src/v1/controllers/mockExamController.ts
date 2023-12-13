@@ -1,7 +1,7 @@
 import MockExamService from "../services/mockExamService";
 import { MockExam } from "../models/mockExam";
 import { Request, Response } from "express";
-
+import cache from "../utils/cacheUtils";
 export default class MockExamController {
   static async getMockExamsByUserId(req: Request, res: Response) {
     try {
@@ -60,6 +60,7 @@ export default class MockExamController {
       }
 
       const checkedMockExam = await MockExamService.checkMockExam(mockExamData);
+      cache.flushAll();
       res.status(200).json(checkedMockExam);
     } catch (error: any) {
       console.error("Error checking mock exam:", error);
