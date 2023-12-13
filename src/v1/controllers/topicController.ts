@@ -34,7 +34,6 @@ export default class TopicController {
         return res.status(400).json({ error: "Invalid topic ID" });
       }
       const user_id: number | undefined = req.user?.user_id;
-      console.log("user_id:", user_id);
       if (user_id === undefined || isNaN(user_id)) {
         return res.status(400).json({ error: "Invalid user ID" });
       }

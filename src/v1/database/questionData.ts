@@ -36,7 +36,13 @@ export default class QuestionData {
   }
   static async reportQuestion(questionReport: QuestionReport): Promise<void> {
     try {
-      await db("Tickets.questionReport").insert(questionReport);
+      console.log(questionReport);
+      await db("Tickets.questionReport").insert({
+        question_id: questionReport.question_id,
+        user_id: questionReport.user_id,
+        report_date: questionReport.report_date,
+        report: questionReport.report,
+      });
     } catch (e: any) {
       throw new Error(e.message);
     }
