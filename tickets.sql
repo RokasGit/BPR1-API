@@ -46,7 +46,7 @@ CREATE TABLE `topic` (
     ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `question` (
-    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `question_id` int(11) NOT NULL AUTO_INCREMENT,
     `question` varchar(255) NOT NULL,
     `topic_id` int(11) NOT NULL,
     `image` varchar(255) NOT NULL,
@@ -55,7 +55,7 @@ CREATE TABLE `question` (
     FOREIGN KEY (`topic_id`) REFERENCES `topic`(`topic_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 CREATE TABLE `answer` (
-    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `answer_id` int(11) NOT NULL AUTO_INCREMENT,
     `answer` varchar(255) NOT NULL,
     `question_id` int(11) NOT NULL,
     `is_correct` tinyint(1) NOT NULL,
