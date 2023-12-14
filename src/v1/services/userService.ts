@@ -1,10 +1,7 @@
 import { User } from "../models/user";
 import db from "../database/userData";
 import bcrypt from "bcryptjs";
-import * as jwt from "jsonwebtoken";
 import { generateToken } from "../utils/jwtUtils";
-import config from "../../config";
-import { use } from "../routes/userRoutes";
 import { UserResponse } from "../models/userResponse";
 
 export default class UserService {

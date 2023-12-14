@@ -1,5 +1,4 @@
 import QuestionService from "../services/questionService";
-import { QuestionList } from "../models/questionList";
 import { Question } from "../models/question";
 import { Request, Response } from "express";
 import { QuestionReport } from "../models/questionReport";

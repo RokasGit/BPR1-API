@@ -1,5 +1,4 @@
 import { Question } from "../models/question";
-import { QuestionList } from "../models/questionList";
 import QuestionData from "../database/questionData";
 import { QuestionReport } from "../models/questionReport";
 

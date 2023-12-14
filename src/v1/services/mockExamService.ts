@@ -2,9 +2,7 @@ import MockExamData from "../database/mockExamData";
 import TopicService from "./topicService";
 import UserService from "./userService";
 import QuestionService from "./questionService";
-
 import { QuestionList } from "../models/questionList";
-import { Question } from "../models/question";
 import { MockExam } from "../models/mockExam";
 export default class MockExamService {
   static async getMockExamsByUserId(user_id: number): Promise<MockExam[]> {
