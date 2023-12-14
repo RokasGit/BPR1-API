@@ -9,8 +9,23 @@ services:
       - "3000:3000"
     volumes:
       - ./:/opt/api
-    restart: always   
-
+    restart: always
+  tickets-db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'Tickets'
+      MYSQL_USER: 'tickets'
+      MYSQL_PASSWORD: 'YnGdeHRN443EGozM'
+      MYSQL_ROOT_PASSWORD: 'YnGdeHRN443EGozM'
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'
+    volumes:
+      - tickets-db:/var/lib/mysq   
+volumes:
+  tickets-db:
 networks:
   backend:
     driver: bridge
